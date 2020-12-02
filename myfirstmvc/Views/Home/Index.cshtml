@@ -1,0 +1,43 @@
+﻿@model myfirstmvc.ViewModels.User.UserPaginationViewModel
+@{
+    ViewData["Title"] = "首頁";
+}
+
+<div class="text-center">
+    <a class="btn btn-success" asp-action="UserAdd">新增使用者</a>
+</div>
+
+<br>
+
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>使用者</th>
+                <th class="w-25">更新</th>
+                <th class="w-25">刪除</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.users.Any())
+            {
+                foreach (var item in Model.users)
+                {
+                    <tr>
+                        <td><a asp-action="UserDetail" asp-route-id="@item.Id">@item.UserName</a></td>
+                        <td><button class="btn btn-primary">更新</button></td>
+                        <td><button class="btn btn-danger">刪除</button></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3">目前無使用者資料</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+     @await Html.PartialAsync("~/Views/Shared/_pagination.cshtml", @Model.pagination)
+</div>

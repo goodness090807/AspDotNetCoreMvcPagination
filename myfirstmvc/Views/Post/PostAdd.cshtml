@@ -1,0 +1,11 @@
+@model myfirstmvc.ViewModels.Post.PostCreateViewModel
+
+<form asp-action="PostAdd" method="POST">
+    <input type="hidden" asp-for="UserId">
+    <input type="text" class="form-control" placeholder="標題" asp-for="Title">
+    <span asp-validation-for="Title"></span>
+    <input type="text" class="form-control" placeholder="內文" asp-for="Content">
+    <span asp-validation-for="Content"></span>
+
+    <button type="submit">送出文章</button>
+</form>

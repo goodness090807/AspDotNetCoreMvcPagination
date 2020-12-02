@@ -1,0 +1,43 @@
+@model myfirstmvc.ViewModels.User.UserPostsViewModel
+
+<h1>@Model.UserName</h1>
+
+
+<div class="text-center">
+    <a class="btn btn-success" asp-action="PostAdd" asp-controller="Post" asp-route-UserId="@Model.Id">新增文章</a>
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>標題</th>
+                <th class="w-25">更新</th>
+                <th class="w-25">刪除</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model.Posts.Any())
+            {
+                foreach (var item in Model.Posts)
+                {
+                    <tr>
+                        <td><a asp-action="UserDetail" asp-route-id="@item.Id">@item.Title</a></td>
+                        <td><button class="btn btn-primary">更新</button></td>
+                        <td><button class="btn btn-danger">刪除</button></td>
+                    </tr>   
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3" class="text-center">該使用者無文章資料</td>
+                </tr>
+            }
+            
+        </tbody>
+    </table>
+
+    
+     @await Html.PartialAsync("~/Views/Shared/_pagination.cshtml", @Model.Pagination)
+</div>

@@ -1,0 +1,60 @@
+@model myfirstmvc.ViewModels.Partial.PaginationViewModel
+@{
+    var isFirst = Model.pageNum == 1;
+    var isLast = Model.pageNum == Model.TotalPage;
+
+    var firstDis = isFirst ? "disabled" : string.Empty;
+    var LastDis = isLast ? "disabled" : string.Empty;
+    var isFirstAct = isFirst ? "active" : string.Empty;
+    var isLastAct = isLast ? "active" : string.Empty;
+}
+
+@if (Model.TotalPage > 0)
+{
+    <nav>
+        <ul class="pagination">
+
+            <li class="page-item @firstDis">
+                <a class="page-link" asp-route-pageNum="@(Model.pageNum - 1)">上一頁</a>
+            </li>
+            <li class="page-item @isFirstAct">
+                <a class="page-link" asp-route-pageNum="1">1</a>
+            </li>
+            @if (Model.TotalPage > 5 && Model.pageNum >= 5)
+            {
+                <li class="page-item disabled">
+                    <a class="page-link">...</a>
+                </li>
+            }
+
+            @for (int i = Model.minPage; i <= Model.maxPage; i++)
+            {
+                if (Model.pageNum == i)
+                {
+                    <li class="page-item active"><label class="page-link">@i</label> </li>
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link" asp-route-pageNum="@i">@i</a></li>
+                }
+            }
+            @if (Model.TotalPage > 5 && !(Model.pageNum > Model.TotalPage - 4))
+            {
+                <li class="page-item disabled">
+                    <a class="page-link">...</a>
+                </li>
+            }
+
+            @if(Model.TotalPage > 1)
+            {
+                <li class="page-item @isLastAct">
+                    <a class="page-link" asp-route-pageNum="@Model.TotalPage">@Model.TotalPage</a>
+                </li>
+            }
+            
+            <li class="page-item @LastDis">
+                <a class="page-link" asp-route-pageNum="@(Model.pageNum + 1)">下一頁</a>
+            </li>
+        </ul>
+    </nav>
+}
