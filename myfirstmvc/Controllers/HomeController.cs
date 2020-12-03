@@ -25,7 +25,7 @@ namespace myfirstmvc.Controllers
             _paginationService = paginationService;
         }
 
-        public IActionResult Index(int pageNum = 1, int pageSize = 5)
+        public IActionResult Index(int pageNum = 1, int pageSize = 6)
         {
             List<UserReadViewModel> users = _context.appUsers.OrderBy(x => x.Id).Skip((pageNum - 1) * pageSize).Take(pageSize)
                                             .Select(n => new UserReadViewModel

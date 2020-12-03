@@ -14,13 +14,12 @@ namespace myfirstmvc.Service
             pagination.minPage = 2;
             pagination.maxPage = 5;
 
-            if(TotalPage <= 5)
+            if(TotalPage <= 7)
             {
                 pagination.maxPage = TotalPage - 1;
             }
             else if (pageNum >= 5)
             {
-
                 if(pageNum + 3 >= pagination.TotalPage)
                 {
                     pagination.maxPage = pagination.TotalPage - 1;
