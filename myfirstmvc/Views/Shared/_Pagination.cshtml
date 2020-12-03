@@ -21,7 +21,7 @@
             }
             else
             {
-                <li class="page-item"><a class="page-link" asp-route-pageNum="1">1</a></li>
+                <li class="page-item"><button class="page-link" name="pageNum" value="1" onclick="pagChange()">1</button></li>
             }
 
             @if (Model.TotalPage > 7 && Model.pageNum >= 5)
@@ -39,7 +39,7 @@
                 }
                 else
                 {
-                    <li class="page-item"><a class="page-link" asp-route-pageNum="@i">@i</a></li>
+                    <li class="page-item"><button class="page-link" name="pageNum" value="@i" onclick="pagChange()">@i</button></li>
                 }
             }
             @if (Model.TotalPage > 7 && !(Model.pageNum > Model.TotalPage - 4))
@@ -57,13 +57,23 @@
                 }
                 else
                 {
-                   <li class="page-item"><a class="page-link" asp-route-pageNum="@Model.TotalPage">@Model.TotalPage</a></li>
+                   <li class="page-item"><button class="page-link" name="pageNum"  value="@Model.TotalPage" onclick="pagChange()">@Model.TotalPage</button></li>
                 }
             }
 
             <li class="page-item @LastDis">
-                <a class="page-link" asp-route-pageNum="@(Model.pageNum + 1)">下一頁</a>
+                <button class="page-link" name="pageNum" value="@(Model.pageNum + 1)" onclick="pagChange()">下一頁</button>
             </li>
         </ul>
     </nav>
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            pagChange(){
+                $('#fmQuery').submit();
+            }
+        });
+    </script>
 }

@@ -9,35 +9,42 @@
 
 <br>
 
-
 <div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>使用者</th>
-                <th class="w-25">更新</th>
-                <th class="w-25">刪除</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.users.Any())
-            {
-                foreach (var item in Model.users)
+    <form asp-action="Index" method="GET" id="fmQuery">
+
+        <div>
+            <input type="text" class="form-control" name="searchString" value="@ViewBag.searchString">
+            <button type="submit" class="btn btn-success">查詢</button>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>使用者</th>
+                    <th class="w-25">更新</th>
+                    <th class="w-25">刪除</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.users.Any())
+                {
+                    foreach (var item in Model.users)
+                    {
+                        <tr>
+                            <td><a asp-action="UserDetail" asp-route-id="@item.Id">@item.UserName</a></td>
+                            <td><button class="btn btn-primary">更新</button></td>
+                            <td><button class="btn btn-danger">刪除</button></td>
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-                        <td><a asp-action="UserDetail" asp-route-id="@item.Id">@item.UserName</a></td>
-                        <td><button class="btn btn-primary">更新</button></td>
-                        <td><button class="btn btn-danger">刪除</button></td>
+                        <td colspan="3">目前無使用者資料</td>
                     </tr>
                 }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="3">目前無使用者資料</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-     @await Html.PartialAsync("~/Views/Shared/_pagination.cshtml", @Model.pagination)
+            </tbody>
+        </table>
+        @await Html.PartialAsync("~/Views/Shared/_pagination.cshtml", @Model.pagination)
+    </form>
 </div>

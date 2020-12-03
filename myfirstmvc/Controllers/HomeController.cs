@@ -25,21 +25,22 @@ namespace myfirstmvc.Controllers
             _paginationService = paginationService;
         }
 
-        public IActionResult Index(int pageNum = 1, int pageSize = 6)
+        public IActionResult Index(string searchString, int pageNum = 1, int pageSize = 3)
         {
-            List<UserReadViewModel> users = _context.appUsers.OrderBy(x => x.Id).Skip((pageNum - 1) * pageSize).Take(pageSize)
+            ViewBag.searchString = searchString;
+            List<UserReadViewModel> users = _context.appUsers.Where(x => !string.IsNullOrEmpty(searchString) ? x.UserName.Contains(searchString) : true)
+                                            .OrderBy(x => x.Id).Skip((pageNum - 1) * pageSize).Take(pageSize)
                                             .Select(n => new UserReadViewModel
                                             {
                                                 Id = n.Id,
                                                 UserName = n.UserName,
                                                 Gender = n.Gender
                                             }).ToList();
-            int TotalPage = (int)Math.Ceiling(Decimal.Divide(_context.appUsers.ToList().Count, pageSize));
+            int TotalPage = (int)Math.Ceiling(Decimal.Divide(_context.appUsers.Count(x => !string.IsNullOrEmpty(searchString) ? x.UserName.Contains(searchString) : true), pageSize));
 
-            PaginationViewModel pagination = _paginationService.GetPagination(pageNum, pageSize, TotalPage);
             UserPaginationViewModel PageData = new UserPaginationViewModel()
             {
-                pagination = pagination,
+                pagination = _paginationService.GetPagination(pageNum, pageSize, TotalPage),
                 users = users
             };
 
