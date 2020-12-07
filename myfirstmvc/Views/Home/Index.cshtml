@@ -11,11 +11,15 @@
 
 <div>
     <form asp-action="Index" method="GET" id="fmQuery">
-
-        <div>
-            <input type="text" class="form-control" name="searchString" value="@ViewBag.searchString">
-            <button type="submit" class="btn btn-success">查詢</button>
+        <div class="form-group">
+            <input type="text" class="form-control" id="searchInput">
+            <button type="button" class="btn btn-success" id="btnSearch">查詢</button>
         </div>
+        <div>
+            <input type="hidden" name="searchString" id="hiddenInput" value="@ViewBag.searchString">
+            <span class="badge badge-info" >@ViewBag.searchString</span>
+        </div>
+        
 
         <table class="table">
             <thead>
@@ -32,8 +36,8 @@
                     {
                         <tr>
                             <td><a asp-action="UserDetail" asp-route-id="@item.Id">@item.UserName</a></td>
-                            <td><button class="btn btn-primary">更新</button></td>
-                            <td><button class="btn btn-danger">刪除</button></td>
+                            <td><a class="btn btn-primary" asp-action="UserUpdate" asp-route-id="@item.Id">更新</a></td>
+                            <td><a class="btn btn-danger" asp-action="UserDetail" asp-route-id="@item.Id">刪除</a></td>
                         </tr>
                     }
                 }
@@ -48,3 +52,16 @@
         @await Html.PartialAsync("~/Views/Shared/_pagination.cshtml", @Model.pagination)
     </form>
 </div>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#btnSearch').on('click', function(){
+                $('#hiddenInput').val($('#searchInput').val());
+                $('#searchInput').val('');
+                $('#fmQuery').submit();
+            })
+        });
+    </script>
+}

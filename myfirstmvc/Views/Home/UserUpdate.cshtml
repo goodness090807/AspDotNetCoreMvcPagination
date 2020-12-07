@@ -1,0 +1,19 @@
+@model myfirstmvc.ViewModels.User.UserUpdateViewModel
+@using myfirstmvc.Enums
+@{
+    ViewData["Title"] = "新增使用者";
+}
+
+
+<form class="form-group" asp-action="UserUpdate" method="POST">
+    <input type="hidden" asp-for="Id">
+    <input type="text" class="form-control" asp-for="UserName" placeholder="請輸入使用者名稱" />
+    <span asp-validation-for="UserName" class="text-danger"></span>
+
+    <select class="form-control" asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()">
+        <option value="">請選擇性別</option>
+    </select>
+    <span asp-validation-for="Gender" class="text-danger"></span>
+
+    <button type="submit" class="btn btn-success">更新使用者</button>
+</form>

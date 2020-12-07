@@ -76,6 +76,43 @@ namespace myfirstmvc.Controllers
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+        
+
+        public IActionResult UserUpdate(int Id)
+        {
+            var user = _context.appUsers.FirstOrDefault(x => x.Id == Id);
+
+            if(user == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            UserUpdateViewModel userUpdateViewModel = new UserUpdateViewModel()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Gender = user.Gender
+            };
+
+            return View(userUpdateViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult UserUpdate(UserUpdateViewModel userUpdateViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var user = _context.appUsers.FirstOrDefault(x => x.Id == userUpdateViewModel.Id);
+
+            user.UserName = userUpdateViewModel.UserName;
+            user.Gender = userUpdateViewModel.Gender;
+
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
 
         public IActionResult UserDetail(int Id, int pageNum = 1, int pageSize = 2)
         {
